@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edit College</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+
+  <body>
+    <div class="navbar">
+      <a href="../admin.html">Admin Home</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <h2 class="title">Edit College</h2>
+
+    <div class="form-box">
+      <input id="editCollegeName" placeholder="College Name" />
+      <input id="editFees" placeholder="Fees" />
+      <input id="editPlacement" placeholder="Placement" />
+      <input id="editHostel" placeholder="Hostel" />
+      <input id="editEligibility" placeholder="Eligibility" />
+      <input id="editScholarship" placeholder="Scholarship" />
+      <input id="editLocation" placeholder="Location" />
+      <input id="editImage" placeholder="Image filename (ex: bms.jpg)" />
+      <textarea id="editDescription" placeholder="Description"></textarea>
+      <input id="editCourses" placeholder="Courses (comma separated)" />
+
+      <button onclick="updateCollege()">Update College</button>
+      <button onclick="goBack()" class="back-btn">Back</button>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+
+    <script>
+      // =========================
+      // AUTH CHECK (SAFE VERSION)
+      // =========================
+      auth.onAuthStateChanged((user) => {
+        if (!user) {
+          window.location.href = "../index.html";
+          return;
+        }
+
+        if (user.email !== "admin@gmail.com") {
+          alert("Access denied");
+          window.location.href = "../index.html";
+        }
+      });
+
+      // =========================
+      // GET COLLEGE ID
+      // =========================
+      const params = new URLSearchParams(window.location.search);
+      const editID = params.get("id");
+
+      if (!editID) {
+        alert("No college selected");
+        window.location.href = "../admin.html";
+      }
+
+      // =========================
+      // LOAD COLLEGE DATA
+      // =========================
+      db.collection("colleges")
+        .doc(editID)
+        .get()
+        .then((doc) => {
+          if (!doc.exists) {
+            alert("College not found");
+            return;
+          }
+
+          const d = doc.data();
+
+          document.getElementById("editCollegeName").value = d.name || "";
+          document.getElementById("editFees").value = d.fees || "";
+          document.getElementById("editPlacement").value = d.placement || "";
+          document.getElementById("editHostel").value = d.hostel || "";
+          document.getElementById("editEligibility").value =
+            d.eligibility || "";
+          document.getElementById("editScholarship").value =
+            d.scholarship || "";
+          document.getElementById("editLocation").value = d.location || "";
+          document.getElementById("editImage").value = d.image || "";
+          document.getElementById("editDescription").value =
+            d.description || "";
+          document.getElementById("editCourses").value = Array.isArray(
+            d.courses
+          )
+            ? d.courses.join(", ")
+            : "";
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Failed to load data");
+        });
+
+      // =========================
+      // UPDATE COLLEGE
+      // =========================
+      function updateCollege() {
+        db.collection("colleges")
+          .doc(editID)
+          .update({
+            name: document.getElementById("editCollegeName").value.trim(),
+            fees: document.getElementById("editFees").value.trim(),
+            placement: document.getElementById("editPlacement").value.trim(),
+            hostel: document.getElementById("editHostel").value.trim(),
+            eligibility: document
+              .getElementById("editEligibility")
+              .value.trim(),
+            scholarship: document
+              .getElementById("editScholarship")
+              .value.trim(),
+            location: document.getElementById("editLocation").value.trim(),
+            image: document.getElementById("editImage").value.trim(),
+            description: document
+              .getElementById("editDescription")
+              .value.trim(),
+            courses: document
+              .getElementById("editCourses")
+              .value.split(",")
+              .map((c) => c.trim())
+              .filter(Boolean),
+          })
+          .then(() => {
+            alert("College updated successfully!");
+            window.location.href = "../admin.html";
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Update failed");
+          });
+      }
+
+      // =========================
+      // NAVIGATION
+      // =========================
+      function goBack() {
+        window.location.href = "../admin.html";
+      }
+
+      function logout() {
+        auth.signOut().then(() => {
+          window.location.href = "../index.html";
+        });
+      }
+    </script>
+  </body>
+</html>

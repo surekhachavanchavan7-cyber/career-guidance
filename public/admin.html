@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Dashboard</title>
+    <!-- styles: path relative to public/ -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <div class="nav-left"><a href="index.html">Home</a></div>
+      <div class="nav-right"><a href="#" onclick="logout()">Logout</a></div>
+    </div>
+
+    <h2 class="title">Add New College</h2>
+
+    <!-- ADMIN FORM -->
+    <div class="form-box">
+      <input type="text" id="name" placeholder="College Name" />
+      <input type="text" id="fees" placeholder="Fees" />
+      <input type="text" id="placement" placeholder="Placement (%)" />
+      <input type="text" id="hostel" placeholder="Hostel Availability" />
+      <input type="text" id="eligibility" placeholder="Eligibility" />
+      <input type="text" id="scholarship" placeholder="Scholarship" />
+      <input type="text" id="location" placeholder="Location" />
+      <input type="text" id="description" placeholder="Description" />
+      id="image"
+      <input
+        type="text"
+        placeholder="Image file name (ex: bms.jpg)"
+      />
+      <input type="text" id="courses" placeholder="Courses (comma separated)" />
+
+      <button onclick="addCollege()">Add College</button>
+    </div>
+
+    <h2 class="title">Existing Colleges</h2>
+
+    <!-- where admin JS will render the list -->
+    <div class="table-box" id="collegeListContainer">
+      <div id="collegeList"></div>
+
+    <!-- ----------------------------
+       Firebase (v8) - make sure network OK
+       ---------------------------- -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Your project scripts (paths relative to public/) -->
+   
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    
+  </body>
+</html>

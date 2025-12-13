@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>College Details</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="../home.html">Home</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <h2 class="title">College Details</h2>
+
+    <div id="detailsBox" class="college-card">Loading...</div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../js/firebase-config.js"></script>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      const detailsBox = document.getElementById("detailsBox");
+
+      if (!id) {
+        detailsBox.innerHTML = "Invalid College ID.";
+      } else {
+        db.collection("colleges")
+          .doc(id)
+          .get()
+          .then((doc) => {
+            if (!doc.exists) {
+              detailsBox.innerHTML = "College not found.";
+              return;
+            }
+            const d = doc.data() || {};
+
+            const img = d.image
+              ? `../assets/images/${d.image}`
+              : `../assets/images/default.jpg`;
+            const courses = Array.isArray(d.courses)
+              ? d.courses.join(", ")
+              : d.courses || "N/A";
+
+            detailsBox.innerHTML = `
+          <img src="${img}" class="college-img" onerror="this.src='../assets/images/default.jpg'"/>
+          <h3 class="college-name">${d.name || "Unnamed College"}</h3>
+          <p><strong>Fees:</strong> ${d.fees || "N/A"}</p>
+          <p><strong>Placement:</strong> ${d.placement || "N/A"}</p>
+          <p><strong>Hostel:</strong> ${d.hostel || "N/A"}</p>
+          <p><strong>Eligibility:</strong> ${d.eligibility || "N/A"}</p>
+          <p><strong>Scholarship:</strong> ${d.scholarship || "N/A"}</p>
+          <p><strong>Location:</strong> ${d.location || "N/A"}</p>
+          <p><strong>Description:</strong> ${d.description || "N/A"}</p>
+          <p><strong>Courses:</strong> ${courses}</p>
+        `;
+          })
+          .catch((err) => {
+            console.error(err);
+            detailsBox.innerHTML = "Error loading details.";
+          });
+      }
+
+      function logout() {
+        auth.signOut().then(() => (window.location.href = "../index.html"));
+      }
+    </script>
+  </body>
+</html>
