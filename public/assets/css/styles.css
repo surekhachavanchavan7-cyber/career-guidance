@@ -12,6 +12,8 @@ body {
   background: #f2f6fa;
   color: #222;
   min-height: 100vh;
+  overflow-x: hidden; /* FIX: prevent horizontal shake */
+  overflow-y: auto;
 }
 
 /* ===========================
@@ -68,9 +70,7 @@ body {
   width: 90%;
   max-width: 700px;
   margin: 20px auto;
-  display: block !important;
-  visibility: visible !important;
-  padding-top: 20px; /* important fix */
+  padding-top: 20px;
 }
 
 .college-card {
@@ -80,11 +80,8 @@ body {
   border: 1px solid #ddd;
   margin: 20px auto;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  transition: 0.2s;
-}
-
-.college-card:hover {
-  transform: scale(1.02);
+  max-width: 700px;
+  width: 100%; /* FIX: was 100px */
 }
 
 .college-name {
@@ -112,16 +109,22 @@ body {
 .college-card button:hover {
   background: #0284c7;
 }
+
+/* ===========================
+   COLLEGE IMAGE
+=========================== */
 .college-img {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 15px;
+  display: block;
+  max-width: 100%; /* FIX: was 100px */
 }
 
 /* ===========================
-   FORM CONTAINER (Login, Signup, Admin forms)
+   FORM CONTAINER
 =========================== */
 .form-box {
   background: white;
@@ -213,6 +216,7 @@ button:hover {
 .edit-btn:hover {
   background: #0369a1;
 }
+
 .delete-btn:hover {
   background: #b91c1c;
 }
