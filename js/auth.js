@@ -50,6 +50,8 @@ function login() {
 // LOGOUT
 function logout() {
   auth.signOut().then(() => {
+    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = "index.html";
   });
 }
@@ -57,11 +59,11 @@ function logout() {
 // =========================
 // AUTH PAGE PROTECTION (IMPORTANT)
 // =========================
-auth.onAuthStateChanged((user) => {
-  const publicPages = ["index.html", "create-account.html"];
-  const currentPage = window.location.pathname.split("/").pop();
+//auth.onAuthStateChanged((user) => {
+//const publicPages = ["index.html", "create-account.html"];
+//const currentPage = window.location.pathname.split("/").pop();
 
-  if (!user && !publicPages.includes(currentPage)) {
-    window.location.href = "../index.html";
-  }
-});
+//if (!user && !publicPages.includes(currentPage)) {
+//window.location.href = "../index.html";
+//}
+//});
