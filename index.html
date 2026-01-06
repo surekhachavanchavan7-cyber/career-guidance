@@ -11,16 +11,29 @@
   <body>
     <!-- LOGIN FORM ONLY (No navbar here) -->
     <div class="form-box">
-      <h2>Career Guidance</h2>
+      <h2>Career Guidance Portal</h2>
+      <p class="subtitle">
+        Discover the right career path based on your skills and interests
+      </p>
 
       <input type="text" id="email" placeholder="Email" />
       <input type="password" id="password" placeholder="Password" />
 
       <button onclick="login()">Login</button>
 
-      <a href="pages/create-account.html" class="small">
-        New user? Create Account
-      </a>
+      <p class="small">
+        New user?
+        <a href="pages/create-account.html">Create Account</a>
+      </p>
+
+      <div class="info-box">
+        <h4>What you can do here:</h4>
+        <ul>
+          <li>Explore different career options</li>
+          <li>View skill requirements</li>
+          <li>Follow career roadmaps</li>
+        </ul>
+      </div>
     </div>
 
     <!-- Firebase -->
