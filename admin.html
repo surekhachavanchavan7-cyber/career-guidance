@@ -1,59 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8" />
     <title>Admin Dashboard</title>
-    <!-- styles: path relative to public/ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/admin.css" />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
+
   <body>
-    <!-- NAVBAR -->
-    <div class="navbar">
-      <div class="nav-left"><a href="index.html">Home</a></div>
-      <div class="nav-right"><a href="javascript:void(0)" onclick="logout()">Logout</a>
+    <!-- HEADER -->
+    <div class="header">
+      <h2>Admin Dashboard</h2>
+      <a href="index.html">Logout</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="admin-container">
+
+  <!-- ADD COLLEGE CARD -->
+<div class="admin-card">
+  <h3>Add New College</h3>
+
+  <form id="addCollegeForm" class="admin-form">
+    <input type="text" id="collegeName" placeholder="College Name" required />
+    <input type="text" id="location" placeholder="Location" required />
+    <input type="text" id="fees" placeholder="Fees" required />
+    <input type="number" id="placement" placeholder="Placement %" required />
+    <input
+      type="text"
+      id="image"
+      placeholder="Image name (ex: bms.jpg)"
+    />
+    <textarea
+      id="description"
+      placeholder="College Description"
+      rows="3"
+    ></textarea>
+
+    <button type="submit">Add College</button>
+  </form>
 </div>
-    </div>
 
-    <h2 class="title">Add New College</h2>
+<!-- EXISTING COLLEGES -->
+<div class="existing-colleges">
+  <h3>Existing College</h3>
+  <ul id="collegeList">
+    <li class="college-item">
+  <span class="college-name">BMS College of Engineering</span>
+  <span class="college-location">— Basavanagudi, Bengaluru</span>
+  <button class="delete-btn">Delete</button>
+</li>
+  </ul>
+</div>
 
-    <!-- ADMIN FORM -->
-    <div class="form-box">
-      <input type="text" id="name" placeholder="College Name" />
-      <input type="text" id="fees" placeholder="Fees" />
-      <input type="text" id="placement" placeholder="Placement (%)" />
-      <input type="text" id="hostel" placeholder="Hostel Availability" />
-      <input type="text" id="eligibility" placeholder="Eligibility" />
-      <input type="text" id="scholarship" placeholder="Scholarship" />
-      <input type="text" id="location" placeholder="Location" />
-      <input type="text" id="description" placeholder="Description" />
-      <input
-        type="text"
-        placeholder="Image file name (ex: bms.jpg)"
-      />
-      <input type="text" id="courses" placeholder="Courses (comma separated)" />
 
-      <button onclick="addCollege()">Add College</button>
-    </div>
-
-    <h2 class="title">Existing Colleges</h2>
-
-    <!-- where admin JS will render the list -->
-    <div class="table-box" id="collegeListContainer">
-      <div id="collegeList"></div>
-
-    <!-- ----------------------------
-       Firebase (v8) - make sure network OK
-       ---------------------------- -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    
-    <!-- Your project scripts (paths relative to public/) -->
-   
-    <script src="js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/admin.js"></script>
-    
+    <!-- SCRIPTS -->
+    <script type="module" src="js/admin.js"></script>
   </body>
 </html>

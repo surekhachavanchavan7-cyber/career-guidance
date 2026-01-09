@@ -1,55 +1,62 @@
-const collegeList = document.getElementById("collegeList");
+import { db } from "./firebase-config.js";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// =======================
-// LOAD COLLEGES
-// =======================
-async function loadColleges() {
-  collegeList.innerHTML = "";
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("addCollegeForm");
+  const list = document.getElementById("collegeList");
 
-  const snapshot = await db.collection("colleges").get();
-
-  if (snapshot.empty) {
-    collegeList.innerHTML = "<p>No colleges found.</p>";
+  if (!form || !list) {
+    console.error("Admin elements not found in HTML");
     return;
   }
 
-  snapshot.forEach((doc) => {
-    const col = doc.data();
+  // ADD COLLEGE
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    const card = document.createElement("div");
-    card.classList.add("college-card");
+    const college = {
+      name: document.getElementById("collegeName").value,
+      location: document.getElementById("location").value,
+      fees: document.getElementById("fees").value,
+      placement: document.getElementById("placement").value,
+      image: document.getElementById("image").value,
+      description: document.getElementById("description").value,
+    };
 
-    card.innerHTML = `
-      <img src="assets/images/${col.image}" class="college-img">
-      <h3>${col.name}</h3>
-      <p><b>Description:</b> ${col.description}</p>
-      <p><b>Location:</b> ${col.location}</p>
-      <p><b>Fees:</b> ${col.fees}</p>
-      <p><b>Placement:</b> ${col.placement}</p>
-      <p><b>Hostel:</b> ${col.hostel}</p>
-      <p><b>Eligibility:</b> ${col.eligibility}</p>
-      <p><b>Scholarship:</b> ${col.scholarship}</p>
-      <p><b>Courses:</b> ${col.courses.join(", ")}</p>
-    `;
-
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
-    editBtn.classList.add("edit-btn");
-    editBtn.onclick = () => editCollege(doc.id);
-
-    card.appendChild(editBtn);
-    collegeList.appendChild(card);
+    await addDoc(collection(db, "colleges"), college);
+    form.reset();
+    loadColleges();
   });
-}
 
-// =======================
-// EDIT COLLEGE (FIXED)
-// =======================
-function editCollege(id) {
-  window.location.href = "pages/edit-college.html?id=" + id;
-}
+  // LOAD COLLEGES
+  async function loadColleges() {
+    list.innerHTML = "";
 
-// =======================
-// PAGE LOAD
-// =======================
-window.onload = loadColleges;
+    const snapshot = await getDocs(collection(db, "colleges"));
+    snapshot.forEach((d) => {
+      const c = d.data();
+      const div = document.createElement("div");
+      div.className = "college-item";
+
+      div.innerHTML = `
+        <strong>${c.name}</strong> — ${c.location}
+        <button data-id="${d.id}">Delete</button>
+      `;
+
+      div.querySelector("button").onclick = async () => {
+        await deleteDoc(doc(db, "colleges", d.id));
+        loadColleges();
+      };
+
+      list.appendChild(div);
+    });
+  }
+
+  loadColleges();
+});

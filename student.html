@@ -2,39 +2,112 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/student.css" />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
+
   <body>
     <!-- NAVBAR -->
     <div class="navbar">
-      <a href="home.html" class="navbar-left">Home</a>
-      <a href="#" onclick="logout()" class="navbar-right">Logout</a>
+      <h2>Student Dashboard</h2>
+      <a href="index.html">Logout</a>
     </div>
 
-    <h2 class="title">Career & College Guidance</h2>
+    <!-- MAIN -->
+    <div class="main-container">
+      <section class="section">
+        <h3>College Details</h3>
 
-    <!-- SEARCH BOX -->
-    <div class="center-box">
-      <input
-        type="text"
-        id="searchBox"
-        class="search"
-        placeholder="Search college name..."
-      />
+        <!-- SEARCH -->
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search college..." />
+        </div>
+
+        <!-- GRID -->
+        <div id="collegeContainer"></div>
+      </section>
     </div>
 
-    <!-- COLLEGE LIST -->
-    <div id="collegeContainer" class="college-container"></div>
+    <!-- FIREBASE (MODULE) -->
+    <script type="module">
+      import { db } from "./js/firebase-config.js";
+      import {
+        collection,
+        getDocs,
+        query,
+        orderBy,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+      const container = document.getElementById("collegeContainer");
+      const searchInput = document.getElementById("searchInput");
 
-    <!-- JS -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/career.js"></script>
+      let colleges = [];
+
+      async function loadColleges() {
+        container.innerHTML = "<p>Loading colleges...</p>";
+        try {
+          const q = query(collection(db, "colleges"), orderBy("name"));
+          const snapshot = await getDocs(q);
+
+          colleges = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          render(colleges);
+        } catch (e) {
+          console.error(e);
+          container.innerHTML = "<p>Error loading colleges.</p>";
+        }
+      }
+
+      function render(list) {
+        container.innerHTML = "";
+        if (list.length === 0) {
+          container.innerHTML = "<p>No colleges found.</p>";
+          return;
+        }
+
+        list.forEach((c) => {
+          container.innerHTML += `
+  <div class="card">
+    <img src="assets/images/${c.image || ""}" class="college-img"
+         onerror="this.style.display='none'">
+    <h4>${c.name || ""}</h4>
+    <p><strong>Location:</strong> ${c.location || ""}</p>
+    <p><strong>Fees:</strong> ${c.fees || ""}</p>
+    <p><strong>Placement:</strong> ${c.placement || ""}%</p>
+
+    <div style="margin:10px;">
+      <a href="pages/college-details.html?id=${c.id}"
+         style="
+           display:inline-block;
+           padding:6px 12px;
+           background:#1976d2;
+           color:#fff;
+           border-radius:4px;
+           text-decoration:none;
+           font-size:13px;">
+        View Details
+      </a>
+    </div>
+  </div>
+`;
+        });
+      }
+
+      // SEARCH
+      searchInput.addEventListener("input", () => {
+        const v = searchInput.value.toLowerCase();
+        render(
+          colleges.filter((c) => (c.name || "").toLowerCase().includes(v))
+        );
+      });
+
+      loadColleges();
+    </script>
   </body>
 </html>

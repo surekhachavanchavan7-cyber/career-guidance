@@ -1,79 +1,76 @@
-# Career Guidance Web Application
+# Career & College Guidance Portal
 
-## Project Description
-
-The **Career Guidance Web Application** helps students explore engineering colleges and their details such as fees, placements, eligibility, hostel facilities, scholarships, and courses.  
-The application supports **role-based access** where **Admins** can manage college information and **Students** can view details.
-
-The project is developed using **HTML, CSS, JavaScript**, and **Firebase** and is **deployed live using GitHub Pages**.
-
----
-
-## Live Demo
-
-🔗 **Live Project URL:**  
-https://surekhachavanchavan7-cyber.github.io/career-guidance/index.html
+A web-based application that helps students explore career options and colleges, while allowing administrators to manage college information.  
+The project uses **Firebase Authentication** and **Firebase Firestore** for real-time data handling.
 
 ---
 
 ## Technologies Used
 
-- HTML
-- CSS
-- JavaScript
+- HTML5
+- CSS3
+- JavaScript (ES6 Modules)
 - Firebase Authentication
 - Firebase Firestore
-- GitHub Pages (Hosting)
+- VS Code
+- Live Server
 
 ---
 
-## Folder Structure
+## Project Folder Structure
 
-career-guidance/
-│
-├── assets/
-│ ├── css/
-│ │ └── styles.css
-│ └── images/
-│ └── (7 college images reused)
-│
-├── js/
-│ ├── admin.js
-│ ├── auth.js
-│ ├── career.js
-│ ├── firebase-config.js
-│ ├── logger.js
-│ └── student.js
+Career-Guidance-Portal/
+├── index.html (Login Page)
+├── admin.html (Admin Dashboard)
+├── student.html (Student Dashboard)
 │
 ├── pages/
-│ ├── college-details.html
-│ ├── create-account.html
-│ └── edit-college.html
+│ ├── create-account.html (Create Account Page)
+│ └── college-details.html (College Details Page)
 │
-├── admin.html
-├── student.html
-├── home.html
-├── index.html
-├── project-report.pdf
+├── assets/
+│ └── css/
+│ └── styles.css (Common Styling)
+│
+├── js/
+│ ├── firebase-config.js (Firebase Configuration)
+│ ├── auth.js (Login & Signup Logic)
+│ ├── admin.js (Admin CRUD Operations)
+│ └── student.js (Student College Listing)
+│
 └── README.md
 
 ---
 
-## Login Credentials (Demo)
+## Authentication & Roles
+
+The project supports **role-based access** using Firebase Authentication.
+
+### Admin
+
+- Email must contain the word **admin**
+- Redirected to Admin Dashboard
+
+### Student
+
+- Normal email
+- Redirected to Student Dashboard
+
+---
+
+## Sample Login Credentials (For Evaluation)
 
 ### Admin Login
 
-Email: admin@gmail.com
-
+Email: admin@gmail.com  
 Password: admin123
 
 ### Student Login
 
-Email: student@gmail.com
-
+Email: student@gmail.com  
 Password: student123
 
-_(Demo credentials provided for evaluation purposes.)_
+(These credentials are only for demo/testing purposes.)
 
 ---
 
@@ -81,11 +78,10 @@ _(Demo credentials provided for evaluation purposes.)_
 
 - Secure login using Firebase Authentication
 - Add new college details
-- View all colleges
-- Edit existing college information
-- Update data in Firebase Firestore
-- Logout functionality
-- Role-based access control
+- View all existing colleges
+- Delete college details
+- All data stored and retrieved from Firebase Firestore
+- Clean and structured admin dashboard UI
 
 ---
 
@@ -93,70 +89,48 @@ _(Demo credentials provided for evaluation purposes.)_
 
 - Secure login using Firebase Authentication
 - View list of colleges
-- View detailed college information
-- Read-only access (no edit permissions)
+- Search colleges by name
+- View college details
+- Career guidance section
+- Data fetched dynamically from Firebase Firestore
 
 ---
 
-## Add New College (Admin Panel)
+## Firebase Usage
 
-Admin can add the following details:
+### Firebase Authentication
 
-- College Name
-- Fees
-- Placement (%)
-- Hostel Availability
-- Eligibility
-- Scholarship
-- Location
-- Description
-- Courses (comma-separated)
-- Image file name
+- Email & password based login and signup
+- Role-based redirection (Admin / Student)
+
+### Firebase Firestore
+
+- Stores college details
+- Supports real-time CRUD operations
 
 ---
 
-## Image Handling (Important)
+## How to Run the Project
 
-- Only **7 images** are used in the project
-- Images are stored in:
-- assets/images/
-
-- While adding a new college:
-  - Admin must enter an **existing image filename**
-  - Example: `bms.jpg`
-  - Images can be reused for multiple colleges
-  - Image upload feature is **not implemented intentionally**
+1. Download or clone the project folder
+2. Open the folder in VS Code
+3. Install the Live Server extension
+4. Right-click index.html and select “Open with Live Server”
+5. Login using the provided credentials
 
 ---
 
-## Edit College Feature
+## Project Status
 
-- Available only for Admin users
-- Edit button opens the Edit College page
-- Existing data is auto-filled
-- Updated details are saved to Firebase Firestore
-
----
-
-## How to Run the Project Locally
-
-1. Open the project folder in VS Code
-2. Use **Live Server** or open `index.html` in browser
-3. Login using Admin or Student credentials
-
----
-
-## Notes for Evaluator
-
-- Firebase Authentication is implemented
-- Firebase Firestore is used as the database
-- CRUD operations are fully functional
-- Images are reused intentionally
-- Role-based access control is implemented
-- Project is successfully deployed on GitHub Pages
+- Admin and Student dashboards implemented
+- Firebase Authentication integrated
+- Firebase Firestore CRUD operations implemented
+- UI improved as per evaluation feedback
+- Project is functional and stable
 
 ---
 
 ## Conclusion
 
-The Career Guidance Web Application demonstrates frontend development skills, Firebase authentication, Firestore database integration, and live deployment using GitHub Pages.
+This project demonstrates frontend development skills, Firebase integration, authentication, role-based access control, and basic UI/UX design.  
+It fulfills the internship evaluation requirements for a Career & College Guidance system.

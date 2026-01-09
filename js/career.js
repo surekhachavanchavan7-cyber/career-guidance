@@ -72,3 +72,46 @@ function logout() {
       window.location.href = "index.html";
     });
 }
+function getCareerRecommendation() {
+  const q1 = document.getElementById("q1").value;
+  const q2 = document.getElementById("q2").value;
+
+  let result = "";
+
+  if (q1 === "tech" && q2 === "practical") {
+    result = "Frontend Developer";
+  } else if (q1 === "business") {
+    result = "MBA";
+  } else if (q1 === "design" || q2 === "creative") {
+    result = "UI/UX Designer";
+  } else {
+    result = "Data Analyst";
+  }
+
+  document.getElementById("careerResult").innerText =
+    "Recommended Career: " + result;
+}
+
+function saveCareer(career) {
+  let saved = JSON.parse(localStorage.getItem("careers")) || [];
+  if (!saved.includes(career)) {
+    saved.push(career);
+    localStorage.setItem("careers", JSON.stringify(saved));
+    alert("Career saved successfully");
+    loadSavedCareers();
+  }
+}
+
+function loadSavedCareers() {
+  let saved = JSON.parse(localStorage.getItem("careers")) || [];
+  const list = document.getElementById("savedCareerList");
+  list.innerHTML = "";
+
+  saved.forEach((career) => {
+    const li = document.createElement("li");
+    li.textContent = career;
+    list.appendChild(li);
+  });
+}
+
+window.onload = loadSavedCareers;
