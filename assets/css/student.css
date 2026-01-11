@@ -1,43 +1,193 @@
-.main-container {
-  max-width: 1200px;
-  margin: 30px auto;
+/* =========================
+   GLOBAL RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
+
+/* =========================
+   SECTIONS (Career / Courses / Quiz)
+========================= */
+.section {
+  background: #ffffff;
   padding: 20px;
-}
-
-.search-box {
-  margin-bottom: 20px;
-}
-
-.search-box input {
-  width: 300px;
-  padding: 10px;
-}
-
-#collegeContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  background: #fff;
-  border-radius: 8px;
-  overflow: hidden;
+  margin: 20px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* =========================
+   SEARCH
+========================= */
+.search-box {
+  margin: 20px;
+}
+
+.search-box input {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* =========================
+   COLLEGE GRID (MAIN FIX)
+========================= */
+#collegeContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* =========================
+   CARD
+========================= */
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================
+   IMAGE (FINAL – NO BREAK)
+========================= */
 .college-img {
   width: 100%;
   height: 160px;
-  object-fit: cover;
+  object-fit: cover; /* 🔑 THIS SOLVES YOUR IMAGE ISSUE */
+  display: block;
 }
 
+/* =========================
+   CARD CONTENT
+========================= */
 .card h4 {
+  font-size: 15px;
   margin: 10px;
-  color: #1976d2;
 }
 
 .card p {
-  margin: 4px 10px;
+  font-size: 13px;
+  margin: 0 10px 6px;
+  color: #555;
+}
+
+/* =========================
+   BUTTON
+========================= */
+.card a {
+  margin: 10px;
+  padding: 8px 14px;
+  background: #1976d2;
+  color: #ffffff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  align-self: flex-start;
+}
+
+.card a:hover {
+  background: #125aa3;
+}
+/* ===== CAREER EXPLORATION ===== */
+.career-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.career-card {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.career-card h4 {
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #1976d2;
+}
+
+.career-card p {
+  font-size: 13px;
+  color: #555;
+}
+/* ===== COURSES & EXAMS ===== */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.course-card {
+  background: #eef3f9;
+  padding: 14px;
+  border-radius: 8px;
+  border-left: 4px solid #1976d2;
+}
+
+.course-card h4 {
   font-size: 14px;
+  margin-bottom: 6px;
+  color: #1976d2;
+}
+
+.course-card p {
+  font-size: 13px;
+  color: #444;
+}
+/* ===== CAREER ASSESSMENT QUIZ ===== */
+.quiz-box {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.quiz-box p {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.quiz-box label {
+  font-size: 13px;
+  color: #444;
+}
+
+.quiz-box button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.quiz-box button:hover {
+  background: #125aa3;
+}
+
+#quizResult {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #1976d2;
 }

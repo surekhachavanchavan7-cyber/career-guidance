@@ -30,3 +30,26 @@ function loadColleges() {
     container.appendChild(div);
   });
 }
+// Career Assessment Quiz Logic
+// Career Assessment Quiz Logic
+window.submitQuiz = function () {
+  const selected = document.querySelector('input[name="q1"]:checked');
+  const resultDiv = document.getElementById("quizResult");
+
+  if (!resultDiv) return;
+
+  if (!selected) {
+    resultDiv.innerHTML = "❌ Please select an option.";
+    resultDiv.style.color = "red";
+    return;
+  }
+
+  let career = "";
+
+  if (selected.value === "tech") career = "Software Engineer";
+  if (selected.value === "data") career = "Data Analyst";
+  if (selected.value === "design") career = "UI / UX Designer";
+
+  resultDiv.innerHTML = `✅ Suggested Career Path: <b>${career}</b>`;
+  resultDiv.style.color = "green";
+};

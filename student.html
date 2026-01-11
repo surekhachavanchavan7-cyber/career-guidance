@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <title>Student Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/common.css" />
     <link rel="stylesheet" href="assets/css/student.css" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
 
   <body>
@@ -16,22 +17,128 @@
       <a href="index.html">Logout</a>
     </div>
 
-    <!-- MAIN -->
     <div class="main-container">
+      <!-- CAREER EXPLORATION -->
       <section class="section">
-        <h3>College Details</h3>
+        <h3>Career Exploration</h3>
 
-        <!-- SEARCH -->
-        <div class="search-box">
-          <input type="text" id="searchInput" placeholder="Search college..." />
+        <div class="career-grid">
+          <div class="career-card">
+            <h4>Software Engineer</h4>
+            <p>Builds and maintains software applications.</p>
+          </div>
+
+          <div class="career-card">
+            <h4>Data Analyst</h4>
+            <p>Analyzes data to support decisions.</p>
+          </div>
+
+          <div class="career-card">
+            <h4>UI / UX Designer</h4>
+            <p>Designs user-friendly interfaces.</p>
+          </div>
+
+          <div class="career-card">
+            <h4>Cyber Security Analyst</h4>
+            <p>Protects systems and networks.</p>
+          </div>
         </div>
-
-        <!-- GRID -->
-        <div id="collegeContainer"></div>
       </section>
-    </div>
 
-    <!-- FIREBASE (MODULE) -->
+      <!-- COURSES -->
+      <section class="section">
+        <h3>Courses & Entrance Exams</h3>
+        <div class="course-grid">
+
+  <div class="course-card">
+    <h4>Engineering</h4>
+    <p>JEE Main, JEE Advanced, KCET</p>
+  </div>
+
+  <div class="course-card">
+    <h4>Medical</h4>
+    <p>NEET</p>
+  </div>
+
+  <div class="course-card">
+    <h4>Management (MBA)</h4>
+    <p>CAT, XAT, CMAT, MAT</p>
+  </div>
+
+  <div class="course-card">
+    <h4>Design</h4>
+    <p>NIFT, NID, UCEED</p>
+  </div>
+
+</div>
+
+      <!-- QUIZ -->
+      <section class="section">
+        <h3>Career Assessment Quiz</h3>
+<div class="quiz-box">
+
+  <p><strong>1. What type of work do you enjoy?</strong></p>
+  <label><input type="radio" name="q1" value="tech"> Technical / Coding</label><br>
+  <label><input type="radio" name="q1" value="data"> Data & Numbers</label><br>
+  <label><input type="radio" name="q1" value="design"> Creative / Design</label>
+
+  <br><br>
+
+  <p><strong>2. What is your strongest skill?</strong></p>
+  <label><input type="radio" name="q2" value="logic"> Logical Thinking</label><br>
+  <label><input type="radio" name="q2" value="analysis"> Analysis</label><br>
+  <label><input type="radio" name="q2" value="creativity"> Creativity</label>
+
+  <br><br>
+
+  <button onclick="showQuizResult()">Submit Assessment</button>
+
+  <p id="quizResult"></p>
+
+</div>
+
+      <!-- SEARCH -->
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search college..." />
+      </div>
+
+      <!-- COLLEGES -->
+      <div id="collegeContainer">
+
+  <div class="card">
+    <img src="images/bms.jpg" class="college-img">
+
+    <h4>BMS College of Engineering</h4>
+    <p>Basavanagudi, Bengaluru</p>
+
+    <a href="#">View Details</a>
+  </div>
+
+</div>
+
+    <!-- QUIZ SCRIPT -->
+    <script>
+      function submitQuiz() {
+        const selected = document.querySelector('input[name="q1"]:checked');
+        const result = document.getElementById("quizResult");
+
+        if (!selected) {
+          result.innerText = "Please select an option.";
+          return;
+        }
+
+        const map = {
+          tech: "Software Engineer",
+          data: "Data Analyst",
+          design: "UI / UX Designer",
+        };
+
+        result.innerHTML =
+          "<strong>Suggested Career: " + map[selected.value] + "</strong>";
+      }
+    </script>
+
+    <!-- FIREBASE -->
     <script type="module">
       import { db } from "./js/firebase-config.js";
       import {
@@ -47,67 +154,62 @@
       let colleges = [];
 
       async function loadColleges() {
-        container.innerHTML = "<p>Loading colleges...</p>";
-        try {
-          const q = query(collection(db, "colleges"), orderBy("name"));
-          const snapshot = await getDocs(q);
+        const q = query(collection(db, "colleges"), orderBy("name"));
+        const snap = await getDocs(q);
 
-          colleges = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-
-          render(colleges);
-        } catch (e) {
-          console.error(e);
-          container.innerHTML = "<p>Error loading colleges.</p>";
-        }
+        colleges = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        render(colleges);
       }
 
       function render(list) {
-        container.innerHTML = "";
-        if (list.length === 0) {
-          container.innerHTML = "<p>No colleges found.</p>";
-          return;
-        }
+  container.innerHTML = "";
 
-        list.forEach((c) => {
-          container.innerHTML += `
-  <div class="card">
-    <img src="assets/images/${c.image || ""}" class="college-img"
-         onerror="this.style.display='none'">
-    <h4>${c.name || ""}</h4>
-    <p><strong>Location:</strong> ${c.location || ""}</p>
-    <p><strong>Fees:</strong> ${c.fees || ""}</p>
-    <p><strong>Placement:</strong> ${c.placement || ""}%</p>
+  list.forEach((c) => {
+    container.innerHTML += `
+      <div class="card">
+        <img class="college-img"
+             src="assets/images/${c.image || "default.jpg"}"
+             onerror="this.src='assets/images/default.jpg'">
 
-    <div style="margin:10px;">
-      <a href="pages/college-details.html?id=${c.id}"
-         style="
-           display:inline-block;
-           padding:6px 12px;
-           background:#1976d2;
-           color:#fff;
-           border-radius:4px;
-           text-decoration:none;
-           font-size:13px;">
-        View Details
-      </a>
-    </div>
-  </div>
-`;
-        });
-      }
+        <h4>${c.name}</h4>
+        <p>${c.location}</p>
 
-      // SEARCH
+        <a href="pages/college-details.html?id=${c.id}">
+          View Details
+        </a>
+      </div>
+    `;
+  });
+}
+
+
       searchInput.addEventListener("input", () => {
         const v = searchInput.value.toLowerCase();
-        render(
-          colleges.filter((c) => (c.name || "").toLowerCase().includes(v))
-        );
+        render(colleges.filter((c) => c.name.toLowerCase().includes(v)));
       });
 
       loadColleges();
     </script>
+    <script>
+function showQuizResult() {
+  const q1 = document.querySelector('input[name="q1"]:checked');
+  const q2 = document.querySelector('input[name="q2"]:checked');
+  const result = document.getElementById("quizResult");
+
+  if (!q1 || !q2) {
+    result.innerText = "Please answer all questions.";
+    return;
+  }
+
+  if (q1.value === "tech" && q2.value === "logic") {
+    result.innerText = "Suggested Career: Software Engineer";
+  } else if (q1.value === "data" || q2.value === "analysis") {
+    result.innerText = "Suggested Career: Data Analyst";
+  } else {
+    result.innerText = "Suggested Career: UI/UX Designer";
+  }
+}
+</script>
+
   </body>
 </html>

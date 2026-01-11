@@ -1,71 +1,117 @@
-/* ============================
-   ADMIN DASHBOARD ONLY STYLES
-   ============================ */
-
-/* Page background */
-body {
-  background: #f4f6f9;
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* ===== ADMIN HEADER FIX ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1976d2; /* blue like student */
+  color: #ffffff;
+  padding: 18px 24px;
+  min-height: 60px;
 }
 
-/* Admin main layout */
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.header a {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.header a:hover {
+  background: #08306b;
+}
+
+/* ===== BASE ===== */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f9;
+  color: #333;
+}
+
+/* ===== PAGE CONTAINER ===== */
 .admin-container {
   max-width: 1200px;
   margin: 30px auto;
-  padding: 10px;
+  padding: 20px;
+}
+
+/* ===== PAGE TITLE ===== */
+h2 {
+  margin-bottom: 20px;
+  color: #1976d2;
+}
+
+/* ===== GRID LAYOUT ===== */
+.admin-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 25px;
 }
 
-/* Admin cards */
-.admin-card {
+/* ===== CARD ===== */
+.card {
   background: #ffffff;
-  border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Headings */
-.admin-card h3 {
-  margin-bottom: 15px;
-  color: #1976d2;
-  font-size: 18px;
+/* ===== FORM ===== */
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
-/* Inputs */
-.admin-card input,
-.admin-card textarea {
+form input,
+form textarea {
   width: 100%;
   padding: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 14px;
 }
 
-/* Textarea fix */
-.admin-card textarea {
-  resize: none;
-  min-height: 90px;
+form textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
-/* Add button */
-.admin-card button {
-  width: 100%;
-  padding: 12px;
+/* ===== BUTTON ===== */
+button {
+  padding: 10px 18px;
   background: #1976d2;
-  color: white;
   border: none;
+  color: #fff;
   border-radius: 6px;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
 }
 
-.admin-card button:hover {
-  background: #155a9c;
+button:hover {
+  background: #125aa3;
 }
 
-/* Existing college list */
+/* ===== COLLEGE LIST ===== */
+.college-list {
+  list-style: none;
+}
+
 .college-item {
   display: flex;
   justify-content: space-between;
@@ -75,50 +121,28 @@ body {
   font-size: 14px;
 }
 
-/* Delete button */
-.college-item button {
-  background: #e53935;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
+.college-item:last-child {
+  border-bottom: none;
 }
 
-.college-item button:hover {
+/* ===== DELETE BUTTON ===== */
+.delete-btn {
+  background: #e53935;
+  padding: 6px 12px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+}
+
+.delete-btn:hover {
   background: #c62828;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .admin-container {
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .admin-grid {
     grid-template-columns: 1fr;
   }
-}
-.college-item {
-  display: grid;
-  grid-template-columns: 2fr 2fr auto;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-}
-
-.college-name {
-  font-weight: 600;
-  color: #333;
-}
-
-.college-location {
-  color: #666;
-  font-size: 14px;
-}
-
-.delete-btn {
-  background: #e53935;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
 }
