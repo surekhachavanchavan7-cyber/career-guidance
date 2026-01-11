@@ -1,136 +1,113 @@
 # Career & College Guidance Portal
 
-A web-based application that helps students explore career options and colleges, while allowing administrators to manage college information.  
-The project uses **Firebase Authentication** and **Firebase Firestore** for real-time data handling.
+This is a web-based **Career & College Guidance Portal** developed as part of an advanced internship project.  
+The application helps students explore career options, entrance exams, and colleges, while providing an admin panel to manage college data.
 
 ---
 
-## Technologies Used
+## 🔹 Features
 
-- HTML5
-- CSS3
-- JavaScript (ES6 Modules)
-- Firebase Authentication
-- Firebase Firestore
-- VS Code
-- Live Server
+### 👨‍🎓 Student Module
+
+- Career Exploration (Software, Data, Design, Cyber Security)
+- Courses & Entrance Exams (Engineering, Medical, MBA, Design)
+- Career Assessment Quiz
+- College Search & Listing
+- College Details Page
+
+### 🛠️ Admin Module
+
+- Secure Admin Login
+- Add New Colleges
+- View Existing Colleges
+- Delete Colleges
+- Centralized College Management Dashboard
 
 ---
 
-## Project Folder Structure
+## 🔐 Login Credentials (For Evaluation)
 
-Career-Guidance-Portal/
-├── index.html (Login Page)
-├── admin.html (Admin Dashboard)
-├── student.html (Student Dashboard)
-│
-├── pages/
-│ ├── create-account.html (Create Account Page)
-│ └── college-details.html (College Details Page)
+### Admin Login
+
+- **Email:** admin@gmail.com
+- **Password:** admin123
+
+### Student Login
+
+- **Email:** student@gmail.com
+- **Password:** student123
+
+> ⚠️ These are demo credentials created for project evaluation purposes.
+
+---
+
+## 📁 Project Folder Structure
+
+Career-Guidance/
 │
 ├── assets/
-│ └── css/
-│ └── styles.css (Common Styling)
+│ ├── css/
+│ │ ├── admin.css
+│ │ ├── student.css
+│ │ ├── login.css
+│ │ ├── common.css
+│ │ └── styles.css
+│ │
+│ ├── images/
+│ │ ├── bms.jpg
+│ │ ├── dsce.jpg
+│ │ ├── rv.jpg
+│ │ └── ...
 │
 ├── js/
-│ ├── firebase-config.js (Firebase Configuration)
-│ ├── auth.js (Login & Signup Logic)
-│ ├── admin.js (Admin CRUD Operations)
-│ └── student.js (Student College Listing)
+│ ├── admin.js
+│ ├── student.js
+│ ├── auth.js
+│ ├── career.js
+│ └── firebase-config.js
 │
+├── pages/
+│ ├── admin.html
+│ ├── student.html
+│ ├── college-details.html
+│ └── create-account.html
+│
+├── index.html
+├── favicon.ico
 └── README.md
 
 ---
 
-## Authentication & Roles
+## 💻 Technologies Used
 
-The project supports **role-based access** using Firebase Authentication.
-
-### Admin
-
-- Email must contain the word **admin**
-- Redirected to Admin Dashboard
-
-### Student
-
-- Normal email
-- Redirected to Student Dashboard
+- HTML5
+- CSS3
+- JavaScript (ES6)
+- Firebase (Authentication & Data Handling)
+- VS Code
 
 ---
 
-## Sample Login Credentials (For Evaluation)
+## 🚀 How to Run the Project
 
-### Admin Login
-
-Email: admin@gmail.com  
-Password: admin123
-
-### Student Login
-
-Email: student@gmail.com  
-Password: student123
-
-(These credentials are only for demo/testing purposes.)
+1. Open the project folder in **VS Code**
+2. Use **Live Server** or open `index.html` directly in browser
+3. Login using the credentials above
+4. Navigate between Student and Admin dashboards
 
 ---
 
-## Admin Features
+## 📌 Notes
 
-- Secure login using Firebase Authentication
-- Add new college details
-- View all existing colleges
-- Delete college details
-- All data stored and retrieved from Firebase Firestore
-- Clean and structured admin dashboard UI
+- This project is designed to meet **advanced-level internship requirements**
+- Both **Student & Admin dashboards** are implemented
+- UI is responsive and clean
+- Code is modular and well-structured
 
 ---
 
-## Student Features
+## 👩‍💻 Developed By
 
-- Secure login using Firebase Authentication
-- View list of colleges
-- Search colleges by name
-- View college details
-- Career guidance section
-- Data fetched dynamically from Firebase Firestore
-
----
-
-## Firebase Usage
-
-### Firebase Authentication
-
-- Email & password based login and signup
-- Role-based redirection (Admin / Student)
-
-### Firebase Firestore
-
-- Stores college details
-- Supports real-time CRUD operations
-
----
-
-## How to Run the Project
-
-1. Download or clone the project folder
-2. Open the folder in VS Code
-3. Install the Live Server extension
-4. Right-click index.html and select “Open with Live Server”
-5. Login using the provided credentials
-
----
-
-## Project Status
-
-- Admin and Student dashboards implemented
-- Firebase Authentication integrated
-- Firebase Firestore CRUD operations implemented
-- UI improved as per evaluation feedback
-- Project is functional and stable
-
----
-
-## Conclusion
-
-This project demonstrates frontend development skills, Firebase integration, authentication, role-based access control, and basic UI/UX design.  
-It fulfills the internship evaluation requirements for a Career & College Guidance system.
+**Surekha Chavan**  
+BE – Information Technology  
+Career Transition Project
