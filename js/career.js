@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // Fetch and display colleges
-function loadColleges() {
+/*function loadColleges() {
   const collegeContainer = document.getElementById("collegeContainer");
   const searchBox = document.getElementById("searchBox");
 
@@ -27,7 +27,7 @@ function loadColleges() {
       displayColleges(filtered);
     });
   });
-}
+}*/
 
 // Display card UI
 function displayColleges(colleges) {
@@ -73,23 +73,39 @@ function logout() {
     });
 }
 function getCareerRecommendation() {
-  const q1 = document.getElementById("q1").value;
-  const q2 = document.getElementById("q2").value;
+  const q1 = document.querySelector('input[name="q1"]:checked');
+  const q2 = document.querySelector('input[name="q2"]:checked');
 
-  let result = "";
+  const result = document.getElementById("quizResult");
 
-  if (q1 === "tech" && q2 === "practical") {
-    result = "Frontend Developer";
-  } else if (q1 === "business") {
-    result = "MBA";
-  } else if (q1 === "design" || q2 === "creative") {
-    result = "UI/UX Designer";
-  } else {
-    result = "Data Analyst";
+  if (!q1 || !q2) {
+    result.innerText = "Please select all options.";
+    return;
   }
 
-  document.getElementById("careerResult").innerText =
-    "Recommended Career: " + result;
+  let career = "";
+
+  if (q1.value === "tech" && q2.value === "logic") {
+    career = "Software Engineer / Data Analyst";
+  } else if (q1.value === "design" || q2.value === "creative") {
+    career = "UI / UX Designer";
+  } else if (q1.value === "business") {
+    career = "MBA / Management";
+  } else {
+    career = "Explore Engineering Fields";
+  }
+
+  result.innerText = "Recommended Career: " + career;
+
+  // ✅ clear radio selection after submit
+  document
+    .querySelectorAll('input[name="q1"], input[name="q2"]')
+    .forEach((r) => {
+      r.checked = false;
+    });
+
+  // ✅ keep result visible nicely
+  result.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 function saveCareer(career) {
@@ -102,7 +118,7 @@ function saveCareer(career) {
   }
 }
 
-function loadSavedCareers() {
+/*function loadSavedCareers() {
   let saved = JSON.parse(localStorage.getItem("careers")) || [];
   const list = document.getElementById("savedCareerList");
   list.innerHTML = "";
@@ -114,4 +130,4 @@ function loadSavedCareers() {
   });
 }
 
-window.onload = loadSavedCareers;
+window.onload = loadSavedCareers;*/

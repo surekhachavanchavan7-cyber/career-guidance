@@ -5,13 +5,75 @@
     <title>Student Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/common.css" />
     <link rel="stylesheet" href="assets/css/student.css" />
+
+    <style>
+      .career-grid,
+      .courses-grid,
+      #collegeContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+
+      .section {
+        margin-bottom: 30px;
+      }
+
+      .career-card,
+      .course-card,
+      .card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .career-card:hover,
+      .course-card:hover,
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      .course-card h4 {
+        color: #2563eb;
+        margin-bottom: 6px;
+      }
+
+      .college-img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+
+      .modal-box {
+        background: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 420px;
+        text-align: center;
+      }
+    </style>
   </head>
 
   <body>
-    <!-- NAVBAR -->
     <div class="navbar">
       <h2>Student Dashboard</h2>
       <a href="index.html">Logout</a>
@@ -23,193 +85,271 @@
         <h3>Career Exploration</h3>
 
         <div class="career-grid">
-          <div class="career-card">
+          <div class="career-card" data-career="software">
             <h4>Software Engineer</h4>
-            <p>Builds and maintains software applications.</p>
+            <small>Builds software</small>
           </div>
 
-          <div class="career-card">
+          <div class="career-card" data-career="data">
             <h4>Data Analyst</h4>
-            <p>Analyzes data to support decisions.</p>
+            <small>Works with data</small>
           </div>
 
-          <div class="career-card">
+          <div class="career-card" data-career="uiux">
             <h4>UI / UX Designer</h4>
-            <p>Designs user-friendly interfaces.</p>
+            <small>Designs interfaces</small>
           </div>
 
-          <div class="career-card">
+          <div class="career-card" data-career="cyber">
             <h4>Cyber Security Analyst</h4>
-            <p>Protects systems and networks.</p>
+            <small>Protects systems</small>
           </div>
+        </div>
+
+        <div id="careerResult" class="section" style="display: none">
+          <h3 id="careerTitle"></h3>
+          <p id="careerDescription"></p>
+          <p><b>Courses:</b> <span id="careerCourses"></span></p>
+          <p><b>Entrance Exams:</b> <span id="careerExams"></span></p>
+          <p><b>Recommended Next Step:</b> <span id="careerNextStep"></span></p>
         </div>
       </section>
 
       <!-- COURSES -->
       <section class="section">
         <h3>Courses & Entrance Exams</h3>
-        <div class="course-grid">
 
-  <div class="course-card">
-    <h4>Engineering</h4>
-    <p>JEE Main, JEE Advanced, KCET</p>
-  </div>
+        <div class="courses-grid">
+          <div
+            class="course-card"
+            onclick="openCourse('Engineering','JEE Main, KCET')"
+          >
+            <h4>Engineering</h4>
+            <p>JEE Main, KCET</p>
+          </div>
 
-  <div class="course-card">
-    <h4>Medical</h4>
-    <p>NEET</p>
-  </div>
+          <div class="course-card" onclick="openCourse('Medical','NEET')">
+            <h4>Medical</h4>
+            <p>NEET</p>
+          </div>
 
-  <div class="course-card">
-    <h4>Management (MBA)</h4>
-    <p>CAT, XAT, CMAT, MAT</p>
-  </div>
+          <div class="course-card" onclick="openCourse('MBA','CAT, XAT')">
+            <h4>MBA</h4>
+            <p>CAT, XAT</p>
+          </div>
 
-  <div class="course-card">
-    <h4>Design</h4>
-    <p>NIFT, NID, UCEED</p>
-  </div>
+          <div class="course-card" onclick="openCourse('Design','NIFT, NID')">
+            <h4>Design</h4>
+            <p>NIFT, NID</p>
+          </div>
+        </div>
+      </section>
 
-</div>
-
-      <!-- QUIZ -->
+      <!-- QUIZ SECTION -->
       <section class="section">
         <h3>Career Assessment Quiz</h3>
-<div class="quiz-box">
 
-  <p><strong>1. What type of work do you enjoy?</strong></p>
-  <label><input type="radio" name="q1" value="tech"> Technical / Coding</label><br>
-  <label><input type="radio" name="q1" value="data"> Data & Numbers</label><br>
-  <label><input type="radio" name="q1" value="design"> Creative / Design</label>
+        <p>1. What do you enjoy most?</p>
+        <label>
+          <input type="radio" name="q1" value="tech" /> Technology / Coding </label
+        ><br />
+        <label>
+          <input type="radio" name="q1" value="design" /> Design / Creativity </label
+        ><br />
+        <label>
+          <input type="radio" name="q1" value="business" /> Business /
+          Management </label
+        ><br /><br />
 
-  <br><br>
+        <p>2. What is your strength?</p>
+        <label>
+          <input type="radio" name="q2" value="logic" /> Logical Thinking </label
+        ><br />
+        <label>
+          <input type="radio" name="q2" value="creative" /> Creativity </label
+        ><br />
+        <label>
+          <input type="radio" name="q2" value="analysis" /> Data Analysis </label
+        ><br /><br />
 
-  <p><strong>2. What is your strongest skill?</strong></p>
-  <label><input type="radio" name="q2" value="logic"> Logical Thinking</label><br>
-  <label><input type="radio" name="q2" value="analysis"> Analysis</label><br>
-  <label><input type="radio" name="q2" value="creativity"> Creativity</label>
+        <button onclick="getCareerRecommendation()">Submit Quiz</button>
 
-  <br><br>
-
-  <button onclick="showQuizResult()">Submit Assessment</button>
-
-  <p id="quizResult"></p>
-
-</div>
-
-      <!-- SEARCH -->
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search college..." />
-      </div>
+        <p id="quizResult" style="margin-top: 15px; font-weight: bold"></p>
+      </section>
 
       <!-- COLLEGES -->
-      <div id="collegeContainer">
+      <section class="section">
+        <h3>Colleges</h3>
+        <div id="collegeContainer"></div>
+      </section>
+    </div>
 
-  <div class="card">
-    <img src="images/bms.jpg" class="college-img">
+    <!-- MODAL -->
+    <div id="courseModal" class="modal">
+      <div class="modal-box">
+        <h2 id="modalTitle"></h2>
+        <p id="modalContent"></p>
 
-    <h4>BMS College of Engineering</h4>
-    <p>Basavanagudi, Bengaluru</p>
+        <!-- ADD THIS LINE -->
+        <div id="examDetails" style="margin-top: 10px; font-size: 14px"></div>
 
-    <a href="#">View Details</a>
-  </div>
+        <button onclick="closeCourse()">Close</button>
+      </div>
+    </div>
 
-</div>
-
-    <!-- QUIZ SCRIPT -->
+    <!-- SCRIPT 1: COURSES + COLLEGES -->
     <script>
-      function submitQuiz() {
-        const selected = document.querySelector('input[name="q1"]:checked');
-        const result = document.getElementById("quizResult");
-
-        if (!selected) {
-          result.innerText = "Please select an option.";
-          return;
-        }
-
-        const map = {
-          tech: "Software Engineer",
-          data: "Data Analyst",
-          design: "UI / UX Designer",
-        };
-
-        result.innerHTML =
-          "<strong>Suggested Career: " + map[selected.value] + "</strong>";
+      function closeCourse() {
+        document.getElementById("courseModal").style.display = "none";
       }
-    </script>
 
-    <!-- FIREBASE -->
-    <script type="module">
-      import { db } from "./js/firebase-config.js";
-      import {
-        collection,
-        getDocs,
-        query,
-        orderBy,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+      const colleges = [
+        {
+          name: "BMS College of Engineering",
+          location: "Bengaluru",
+          image: "assets/images/bms.jpg",
+        },
+        {
+          name: "RV College of Engineering",
+          location: "Bengaluru",
+          image: "assets/images/rv.jpg",
+        },
+        {
+          name: "PES University",
+          location: "Bengaluru",
+          image: "assets/images/pes.jpg",
+        },
+        {
+          name: "MS Ramaiah Institute of Technology",
+          location: "Bengaluru",
+          image: "assets/images/msrit.jpg",
+        },
+      ];
 
       const container = document.getElementById("collegeContainer");
-      const searchInput = document.getElementById("searchInput");
-
-      let colleges = [];
-
-      async function loadColleges() {
-        const q = query(collection(db, "colleges"), orderBy("name"));
-        const snap = await getDocs(q);
-
-        colleges = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        render(colleges);
-      }
-
-      function render(list) {
-  container.innerHTML = "";
-
-  list.forEach((c) => {
-    container.innerHTML += `
-      <div class="card">
-        <img class="college-img"
-             src="assets/images/${c.image || "default.jpg"}"
-             onerror="this.src='assets/images/default.jpg'">
-
-        <h4>${c.name}</h4>
-        <p>${c.location}</p>
-
-        <a href="pages/college-details.html?id=${c.id}">
-          View Details
-        </a>
-      </div>
-    `;
-  });
-}
-
-
-      searchInput.addEventListener("input", () => {
-        const v = searchInput.value.toLowerCase();
-        render(colleges.filter((c) => c.name.toLowerCase().includes(v)));
+      colleges.forEach((c) => {
+        container.innerHTML += `
+          <div class="card">
+            <img src="${c.image}" class="college-img">
+            <h4>${c.name}</h4>
+            <p>${c.location}</p>
+          </div>`;
       });
+    </script>
 
-      loadColleges();
+    <!-- SCRIPT 2: CAREER DATA (IMPORTANT: BEFORE CLICK SCRIPT) -->
+    <script>
+      const careerInfo = {
+        software: {
+          title: "Software Engineer",
+          desc: "Builds and maintains software applications.",
+          courses: "B.Tech / BE",
+          exams: "JEE, KCET",
+        },
+        data: {
+          title: "Data Analyst",
+          desc: "Works with data and analytics.",
+          courses: "B.Sc / B.Tech",
+          exams: "CUET",
+        },
+        uiux: {
+          title: "UI / UX Designer",
+          desc: "Designs user interfaces.",
+          courses: "Design",
+          exams: "NIFT, NID",
+        },
+        cyber: {
+          title: "Cyber Security Analyst",
+          desc: "Protects systems, networks, and data from cyber threats.",
+          courses: "B.Tech / B.Sc (Cyber Security)",
+          exams: "JEE, CET",
+        },
+      };
+
+      const entranceExamDetails = {
+        Engineering: {
+          "JEE Main": "Physics, Chemistry, Mathematics",
+          KCET: "Physics, Chemistry, Mathematics / Biology",
+        },
+        Medical: {
+          NEET: "Physics, Chemistry, Biology",
+        },
+        MBA: {
+          CAT: "Quantitative Aptitude, Logical Reasoning, Verbal Ability",
+          XAT: "Decision Making, QA, Verbal, GK",
+        },
+        Design: {
+          NIFT: "Creative Ability, Situation Test, General Knowledge",
+          NID: "Design Aptitude, Creativity, Logical Reasoning",
+        },
+      };
     </script>
     <script>
-function showQuizResult() {
-  const q1 = document.querySelector('input[name="q1"]:checked');
-  const q2 = document.querySelector('input[name="q2"]:checked');
-  const result = document.getElementById("quizResult");
+      // Replace modal content safely
+      function openCourse(courseName, exams) {
+        const modalTitle = document.getElementById("modalTitle");
+        const modalContent = document.getElementById("modalContent");
 
-  if (!q1 || !q2) {
-    result.innerText = "Please answer all questions.";
-    return;
-  }
+        modalTitle.innerText = courseName;
 
-  if (q1.value === "tech" && q2.value === "logic") {
-    result.innerText = "Suggested Career: Software Engineer";
-  } else if (q1.value === "data" || q2.value === "analysis") {
-    result.innerText = "Suggested Career: Data Analyst";
-  } else {
-    result.innerText = "Suggested Career: UI/UX Designer";
-  }
-}
-</script>
+        let html = "<b>Entrance Exams & Subjects:</b><br><br>";
+        const examData = entranceExamDetails[courseName];
 
+        if (examData) {
+          for (let exam in examData) {
+            html += `<b>${exam}:</b> ${examData[exam]}<br>`;
+          }
+        } else {
+          html += exams;
+        }
+
+        modalContent.innerHTML = html;
+        document.getElementById("courseModal").style.display = "flex";
+      }
+    </script>
+
+    <!-- SCRIPT 3: CLICK HANDLER (LAST) -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".career-card").forEach((card) => {
+          card.addEventListener("click", () => {
+            const key = card.dataset.career;
+            const data = careerInfo[key];
+            if (!data) return;
+
+            // update result content
+            document.getElementById("careerTitle").innerText = data.title;
+            document.getElementById("careerDescription").innerText = data.desc;
+            document.getElementById("careerCourses").innerText = data.course;
+            document.getElementById("careerExams").innerText = data.exams;
+
+            let nextStep = "";
+
+            if (key === "software" || key === "data" || key === "cyber") {
+              nextStep = "Choose Engineering course and prepare for JEE / CET";
+            } else if (key === "uiux") {
+              nextStep = "Choose Design course and prepare for NIFT / NID";
+            }
+
+            document.getElementById("careerNextStep").innerText = nextStep;
+
+            const result = document.getElementById("careerResult");
+
+            // make result visible clearly
+            result.style.display = "block";
+            result.style.marginTop = "20px";
+            result.style.border = "2px solid #1976d2";
+
+            // force scroll so user sees change
+            setTimeout(() => {
+              result.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 100);
+          });
+        });
+      });
+    </script>
+
+    <script src="js/student.js"></script>
+    <script src="js/career.js"></script>
   </body>
 </html>

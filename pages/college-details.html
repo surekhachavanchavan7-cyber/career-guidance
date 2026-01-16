@@ -3,76 +3,133 @@
   <head>
     <meta charset="UTF-8" />
     <title>College Details</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../assets/css/styles.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+      }
+
+      .details-wrapper {
+        max-width: 1200px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      .college-img {
+        width: 100%;
+        max-height: 320px;
+        height: auto;
+        object-fit: cover; /* THIS fixes clarity */
+        border-radius: 16px;
+        margin: 24px 0;
+        background: #f5f5f5;
+        border-radius: 12px;
+      }
+      s .location {
+        color: #666;
+        margin-top: -10px;
+      }
+
+      .info h3 {
+        margin-top: 25px;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      #collegeLocation {
+        font-size: 18px;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 24px;
+        margin-top: 8px;
+      }
+      .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 16px;
+        background-color: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .back-btn:hover {
+        background-color: #1e40af;
+      }
+    </style>
   </head>
 
   <body>
-    <!-- HEADER -->
-    <div class="navbar">
-      <h2>College Details</h2>
-      <a href="../student.html">Back</a>
-    </div>
+    <div class="details-wrapper">
+      <h1 id="collegeName"></h1>
+      <p id="collegeLocation" class="location"></p>
 
-    <!-- CONTENT -->
-    <div class="main-container">
-      <div id="detailsBox" class="admin-card">
-        <p>Loading college details...</p>
+      <img id="collegeImage" class="college-img" />
+
+      <div class="info">
+        <h3>About College</h3>
+        <p id="collegeDesc"></p>
+
+        <h3>Courses Offered</h3>
+        <ul id="collegeCourses"></ul>
+
+        <h3>Placements</h3>
+        <p id="collegePlacement"></p>
       </div>
+
+      <a class="back-btn" href="../student.html">⬅ Go to Student Dashboard</a>
     </div>
 
-    <!-- FIREBASE -->
-    <script type="module">
-      import { db } from "../js/firebase-config.js";
-      import {
-        doc,
-        getDoc,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+    <script>
       const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
+      const collegeId = parseInt(params.get("id"));
 
-      const box = document.getElementById("detailsBox");
+      const colleges = JSON.parse(localStorage.getItem("colleges")) || [];
 
-      if (!id) {
-        box.innerHTML = "<p>Invalid college.</p>";
-      } else {
-        loadCollege();
-      }
+      const college = colleges.find((c) => c.id === collegeId);
 
-      async function loadCollege() {
-        try {
-          const ref = doc(db, "colleges", id);
-          const snap = await getDoc(ref);
-
-          if (!snap.exists()) {
-            box.innerHTML = "<p>College not found.</p>";
-            return;
-          }
-
-          const c = snap.data(); // ✅ FIXED
-
-          box.innerHTML = `
-      <img 
-        src="../assets/images/${c.image || "default-college.jpg"}"
-        style="width:100%;max-height:260px;object-fit:cover;border-radius:8px"
-        onerror="this.src='../assets/images/default-college.jpg'"
-      />
-
-      <h3 style="margin-top:15px;">${c.name}</h3>
-
-      <p><strong>Location:</strong> ${c.location}</p>
-      <p><strong>Fees:</strong> ${c.fees}</p>
-      <p><strong>Placement:</strong> ${c.placement}%</p>
-
-      <p style="margin-top:10px;">
-        ${c.description || ""}
-      </p>
+      if (!college) {
+        document.body.innerHTML = `
+      <h2 style="padding:20px">College not found</h2>
+      <a href="../student.html">⬅ Back to Dashboard</a>
     `;
-        } catch (err) {
-          console.error(err);
-          box.innerHTML = "<p>Error loading college details.</p>";
-        }
+      } else {
+        document.getElementById("collegeName").innerText = college.name;
+        document.getElementById("collegeLocation").innerText = college.location;
+        document.getElementById("collegeImage").src =
+          "../assets/images/" + college.image;
+
+        document.getElementById("collegeDesc").innerText =
+          "This is a reputed institute offering quality education.";
+
+        document.getElementById("collegePlacement").innerText =
+          "Placement Rate: " + college.placement + "%";
+
+        const ul = document.getElementById("collegeCourses");
+        ul.innerHTML = "";
+
+        const courseMap = {
+          engineering: ["CSE", "ECE", "Mechanical"],
+          design: ["UI/UX", "Product Design"],
+          medical: ["MBBS", "BDS"],
+          mba: ["Finance", "Marketing"],
+        };
+
+        (courseMap[college.course] || []).forEach((course) => {
+          const li = document.createElement("li");
+          li.innerText = course;
+          ul.appendChild(li);
+        });
       }
     </script>
   </body>
